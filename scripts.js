@@ -251,17 +251,216 @@ window.onload = function() {
     return;
   }
 
-  function updateUserCount() {
-    let count = parseInt(userCountElement.textContent.replace(/,/g, ""));
-    const change = Math.floor(Math.random() * 11) - 5; // Random change between -5 and +5
-    count = Math.max(90, Math.min(200, count + change)); // Keep count between 90 and 200
-    userCountElement.textContent = count.toLocaleString();
-    console.log("Updated user count to:", count); // Debug log
+// 🔹 Cybernetic Particle System
+function createParticleSystem() {
+  const canvas = document.getElementById('particle-canvas');
+  if (!canvas) {
+    console.error('Canvas element not found!');
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('Canvas context not available!');
+    return;
+  }
+  console.log('Canvas and context found, initializing particles...');
+
+  let particles = [];
+  const particleCount = 100;
+
+  // Set canvas size
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  console.log('Canvas size set to:', canvas.width, 'x', canvas.height);
+
+  // Resize canvas on window resize
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    console.log('Resized canvas to:', canvas.width, 'x', canvas.height);
+  });
+
+  // Particle class
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 5 + 1;
+      this.speedX = Math.random() * 2 - 1;
+      this.speedY = Math.random() * 2 - 1;
+      this.glow = Math.random() * 10 + 5;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+      const dx = this.x - mouseX;
+      const dy = this.y - mouseY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 100) {
+        this.speedX += dx * 0.001;
+        this.speedY += dy * 0.001;
+        this.glow = 20;
+      } else {
+        this.glow = Math.max(5, this.glow - 0.1);
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 255, 204, 0.8)`;
+      ctx.shadowBlur = this.glow;
+      ctx.shadowColor = '#00ffcc';
+      ctx.fill();
+    }
   }
 
-  // Initial update to ensure the function runs at least once
-  updateUserCount();
+  let mouseX = 0;
+  let mouseY = 0;
+  canvas.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
 
-  // Update every 10 seconds
-  setInterval(updateUserCount, 10000);
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+      particle.update();
+      particle.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+  console.log('Particle system started with', particleCount, 'particles');
+}
+
+// 🔹 Window Load Handler
+window.onload = function() {
+  // Neural Network Animation
+  function createNeuralNetwork() {
+    const network = document.getElementById('neural-network');
+    network.innerHTML = '';
+
+    for (let i = 0; i < 20; i++) {
+      const line = document.createElement('div');
+      line.className = 'neural-line';
+      line.style.left = `${Math.random() * 100}vw`;
+      line.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      network.appendChild(line);
+    }
+
+    gsap.fromTo('.neural-line', 
+      { y: '-100%', opacity: 0.5 },
+      { 
+        y: '100vh', 
+        opacity: 0, 
+        ease: 'linear',
+        stagger: 0.1,
+        repeat: -1,
+        duration: 3
+      }
+    );
+  }
+
+  createNeuralNetwork();
+  setInterval(createNeuralNetwork, 5000);
+
+  // Request Access Modal Logic
+  const buyButtons = document.querySelectorAll(".buy-btn, .try-btn");
+  const modal = document.getElementById("request-modal");
+  const closeModal = document.getElementById("close-modal");
+  const tierInput = document.getElementById("tier-input");
+  const requestForm = document.getElementById("request-form");
+  const successMessage = document.getElementById("success-message");
+  const errorMessage = document.getElementById("error-message");
+
+  buyButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const tier = button.getAttribute("data-tier");
+      tierInput.value = tier.charAt(0).toUpperCase() + tier.slice(1);
+      modal.style.display = "flex";
+      requestForm.style.display = "block";
+      successMessage.style.display = "none";
+      errorMessage.style.display = "none";
+    });
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  requestForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(requestForm);
+
+    fetch(requestForm.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Accept": "application/json"
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        requestForm.style.display = "none";
+        successMessage.style.display = "block";
+        requestForm.reset();
+        console.log("Form submitted successfully");
+        return response.json();
+      } else {
+        return response.json().then(data => {
+          throw new Error(`Submission failed: ${data.error || response.statusText}`);
+        });
+      }
+    })
+    .then(data => {
+      console.log("Response data:", data);
+    })
+    .catch(error => {
+      requestForm.style.display = "none";
+      errorMessage.style.display = "block";
+      console.error("Error:", error.message");
+    });
+  });
+
+  const userCountElement = document.getElementById("user-count");
+  if (!userCountElement) {
+    console.error("Error: Could not find element with ID 'user-count'");
+    return;
+  }
+
+  function updateUserCount() {
+    let count = parseInt(userCountElement.textContent.replace(/,/g, ""));
+    const change = Math.floor(Math.random() * 21) - 10;
+    let newCount = count + change;
+    if (Math.abs(change) > 5) {
+      newCount = count + (change > 0 ? 5 : -5);
+    }
+    newCount = Math.max(0, Math.min(200, newCount));
+    userCountElement.textContent = newCount.toLocaleString();
+    console.log("Updated user count to:", newCount);
+  }
+
+  userCountElement.textContent = Math.floor(Math.random() * 201);
+  updateUserCount();
+  setInterval(updateUserCount, 5000);
+
+  // Start the particle system
+  createParticleSystem();
 };
