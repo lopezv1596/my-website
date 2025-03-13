@@ -154,6 +154,153 @@ body {
 }
 
 /* Call-to-Action Section */
+/* 🔹 CTA Section */
+.cta {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #1a1a3d 0%, #0d0d1e 100%);
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+  text-align: center;
+}
+
+.pricing-tiers {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.tier {
+  background: #0d0d1e;
+  padding: 30px;
+  border: 1px solid #00ffcc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.free-tier {
+  background: #0d0d1e;
+  padding: 30px;
+  border: 1px solid #66cccc; /* Softer neon green for Free Tier */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(102, 204, 204, 0.3);
+  width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.tier:hover, .free-tier:hover {
+  transform: translateY(-5px);
+}
+
+.tier-title {
+  font-size: 1.5rem;
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+  margin-bottom: 15px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.free-tier .tier-title {
+  color: #66cccc; /* Softer neon green for Free Tier title */
+  text-shadow: 0 0 5px #66cccc;
+}
+
+.tier-price {
+  font-size: 1.3rem;
+  color: #00ffcc;
+  text-shadow: 0 0 3px #00ffcc;
+  margin-bottom: 10px;
+}
+
+.free-tier .tier-price {
+  color: #66cccc;
+  text-shadow: 0 0 3px #66cccc;
+}
+
+.limited {
+  font-size: 0.8rem;
+  color: #ff00ff;
+  text-shadow: 0 0 3px #ff00ff;
+  display: block;
+}
+
+.free-tier .limited {
+  color: #66cccc; /* Softer neon green for "Forever Free" */
+  text-shadow: 0 0 3px #66cccc;
+}
+
+.tier-desc {
+  font-size: 1rem;
+  color: #00ffcc;
+  text-shadow: 0 0 3px #00ffcc;
+  margin-bottom: 15px;
+}
+
+.free-tier .tier-desc {
+  color: #66cccc;
+  text-shadow: 0 0 3px #66cccc;
+}
+
+.bonus {
+  font-size: 0.9rem;
+  color: #00ffff;
+  text-shadow: 0 0 3px #00ffff;
+  margin-bottom: 15px;
+}
+
+.free-tier .bonus {
+  color: #66cccc;
+  text-shadow: 0 0 3px #66cccc;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: transparent;
+  border: 2px solid #00ffff;
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-family: 'Roboto Mono', monospace;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: #00ffff;
+  color: #0d0d1e;
+  text-shadow: none;
+  animation: glitch 0.3s linear infinite;
+}
+
+.try-btn {
+  border: 2px solid #66cccc; /* Softer neon green for Free Tier button */
+  color: #66cccc;
+  text-shadow: 0 0 5px #66cccc;
+}
+
+.try-btn:hover {
+  background: #66cccc;
+  color: #0d0d1e;
+  text-shadow: none;
+  animation: glitch 0.3s linear infinite;
+}
+
+.future-note {
+  font-size: 0.9rem;
+  color: #00ffcc;
+  text-shadow: 0 0 3px #00ffcc;
+  margin-bottom: 20px;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
 .cta {
   padding: 80px 20px 60px;
   text-align: center;
