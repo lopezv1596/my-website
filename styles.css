@@ -1152,34 +1152,37 @@ iframe {
 }
 
 
-/* 🔹 Moving Grid Background */
-.grid-background {
-  position: relative;
-  overflow: hidden;
-}
-
-.grid-background::before {
-  content: "";
-  position: absolute;
+/* 🔹 Holographic Overlay */
+.holo-overlay {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(0, 255, 204, 0.1) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 255, 204, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px; /* Grid cell size */
-  animation: moveGrid 30s linear infinite; /* Slow animation */
-  z-index: -1; /* Behind all content */
-  opacity: 0.2; /* Very subtle */
+  pointer-events: none; /* Allows clicks to pass through */
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.05), transparent 50%);
+  opacity: 0.3; /* Subtle, not too bright */
+  z-index: 0; /* Behind content but above background */
+  animation: holoPulse 10s ease-in-out infinite;
 }
 
-@keyframes moveGrid {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-50px, 50px); } /* Small shift */
+@keyframes holoPulse {
+  0% {
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.05), transparent 50%);
+    opacity: 0.3;
+  }
+  50% {
+    background: radial-gradient(circle at 70% 30%, rgba(0, 255, 255, 0.1), transparent 50%);
+    opacity: 0.5;
+  }
+  100% {
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.05), transparent 50%);
+    opacity: 0.3;
+  }
 }
 
-/* Ensure content stays above the grid */
-.hero, .features, .testimonials, .cta, .footer {
+/* Ensure content stays above the overlay */
+.hero, .features, .testimonials, .cta, .footer, .navbar, .modal {
   position: relative;
   z-index: 1;
 }
