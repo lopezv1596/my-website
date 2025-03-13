@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vyne - Cybernetic AI Legacy</title>
+
+  <!-- TailwindCSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+
+  <!-- GSAP for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Particles.js for Background Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <!-- Custom Fonts and Styles -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-black text-white font-orbitron overflow-x-hidden">
+
+  <!-- 🔹 Boot Screen -->
+  <div id="boot-screen" class="fixed inset-0 bg-black z-50 flex items-center justify-center text-neon-blue text-4xl">
+    <div class="flex flex-col items-center">
+      <span id="boot-text" class="animate-pulse">Initializing Vyne Cybernetic Core...</span>
+      <div id="progress-bar" class="w-64 h-2 bg-gray-800 mt-4 rounded-full overflow-hidden">
+        <div id="progress" class="h-full bg-neon-blue" style="width: 0%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Background Grid with Particles -->
+  <div id="grid-overlay" class="fixed inset-0 z-0"></div>
+
+  <!-- 🔹 Energy Wave Background -->
+  <canvas id="energy-wave" class="fixed inset-0 z-0"></canvas>
+
+  <!-- 🔹 Hero Section with Holographic Avatar -->
+  <header id="hero" class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
+    <h1 class="text-8xl font-bold text-neon-blue glow drop-shadow-lg underline decoration-dashed decoration-4 decoration-neon-purple">Vyne</h1>
+    <p class="text-3xl text-neon-purple mt-6 drop-shadow typing-effect">The Cybernetic Legacy of Offline AI</p>
+    <div id="avatar" class="mt-8 w-48 h-48 rounded-full bg-neon-purple opacity-0"></div>
+    <button id="explore-button" class="mt-10 px-8 py-4 bg-neon-purple bg-opacity-20 rounded-full text-white text-xl hover:bg-opacity-40 transition transform hover:scale-105">Enter the Grid</button>
+  </header>
+
+  <!-- 🔹 Feature Section with Holographic Cards -->
+  <section id="features" class="py-20 px-6 relative">
+    <h2 class="text-5xl text-center text-neon-blue mb-12 glow">Core Cybernetic Modules</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <div class="feature group relative h-96 overflow-hidden border-2 border-neon-blue rounded-xl">
+        <div class="feature__content bg-gray-900 text-white p-8 text-center flex flex-col justify-center items-center h-full">
+          <h3 class="text-2xl font-semibold text-neon-blue flicker">Artificial Intelligence</h3>
+          <p class="mt-4 text-neon-purple font-mono">Offline AI delivering raw, unfiltered insights across Mac, Windows, and Linux.</p>
+        </div>
+        <div class="absolute inset-0 bg-neon-blue opacity-0 group-hover:opacity-10 transition-opacity"></div>
+      </div>
+      <div class="feature group relative h-96 overflow-hidden border-2 border-neon-blue rounded-xl">
+        <div class="feature__content bg-gray-900 text-white p-8 text-center flex flex-col justify-center items-center h-full">
+          <h3 class="text-2xl font-semibold text-neon-blue flicker">Machine Learning</h3>
+          <p class="mt-4 text-neon-purple font-mono">Adapts locally, evolving with your commands in real-time.</p>
+        </div>
+        <div class="absolute inset-0 bg-neon-blue opacity-0 group-hover:opacity-10 transition-opacity"></div>
+      </div>
+      <div class="feature group relative h-96 overflow-hidden border-2 border-neon-blue rounded-xl">
+        <div class="feature__content bg-gray-900 text-white p-8 text-center flex flex-col justify-center items-center h-full">
+          <h3 class="text-2xl font-semibold text-neon-blue flicker">Deep Learning</h3>
+          <p class="mt-4 text-neon-purple font-mono">Unleashes complex pattern recognition offline, powering your creations.</p>
+        </div>
+        <div class="absolute inset-0 bg-neon-blue opacity-0 group-hover:opacity-10 transition-opacity"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔹 Testimonials Section with Glitch Effect -->
+  <section id="testimonials" class="py-20 px-6 relative">
+    <h2 class="text-5xl text-center text-neon-blue mb-12 glow">Voices from the Grid</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <div class="testimonial group relative h-80 overflow-hidden border-2 border-neon-purple rounded-xl">
+        <div class="bg-gray-900 text-white p-8 text-center flex flex-col justify-center items-center h-full">
+          <blockquote class="text-xl text-neon-purple glitch">"Vyne rewired our workflow—autonomous, offline power!"</blockquote>
+          <p class="mt-4 text-neon-blue font-mono">- Alex Johnson, Acme Inc.</p>
+        </div>
+        <div class="absolute inset-0 bg-neon-purple opacity-0 group-hover:opacity-10 transition-opacity"></div>
+      </div>
+      <div class="testimonial group relative h-80 overflow-hidden border-2 border-neon-purple rounded-xl">
+        <div class="bg-gray-900 text-white p-8 text-center flex flex-col justify-center items-center h-full">
+          <blockquote class="text-xl text-neon-purple glitch">"Vyne’s insights outpace cloud AI—pure legacy tech."</blockquote>
+          <p class="mt-4 text-neon-blue font-mono">- Jessica Davis, Prodigy Tech</p>
+        </div>
+        <div class="absolute inset-0 bg-neon-purple opacity-0 group-hover:opacity-10 transition-opacity"></div>
+      </div>
+      <div class="testimonial group relative h-80 overflow-hidden border-2 border-neon-purple rounded-xl">
+        <div class="bg-gray-900 text-white p-8 text-center flex flex-col justify-center items-center h-full">
+          <blockquote class="text-xl text-neon-purple glitch">"Scaled beyond limits with Vyne’s offline genius."</blockquote>
+          <p class="mt-4 text-neon-blue font-mono">- Mike Thompson, Zenith Corp.</p>
+        </div>
+        <div class="absolute inset-0 bg-neon-purple opacity-0 group-hover:opacity-10 transition-opacity"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔹 Call-to-Action (CTA) with Platform Icons -->
+  <section id="cta" class="py-20 px-6 relative">
+    <h2 class="text-5xl text-center text-neon-blue mb-6 glow">Join the Cybernetic Legacy</h2>
+    <p class="text-xl text-neon-purple mb-6 text-center font-mono">Secure Vyne for Mac, Windows & Linux - $400 (Limited)</p>
+    <div class="flex flex-col items-center space-y-6">
+      <div class="flex space-x-6">
+        <a href="#buy" class="cta-btn bg-neon-pink text-white px-8 py-4 rounded-full text-xl hover:bg-opacity-80 transition transform hover:scale-105">Buy Now</a>
+        <button id="contact-btn" class="cta-btn bg-neon-purple text-white px-8 py-4 rounded-full text-xl hover:bg-opacity-80 transition transform hover:scale-105">Contact Us</button>
+      </div>
+      <div class="platform-icons flex space-x-4 mt-6">
+        <div class="platform-icon mac">Mac</div>
+        <div class="platform-icon windows">Windows</div>
+        <div class="platform-icon linux">Linux</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript for animations -->
+  <script src="scripts.js"></script>
+</body>
+</html>
+
+/* 🔹 Cyber Glyph Overlay */
+.glyph-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allows clicks to pass through */
+  z-index: 5;
+}
+
+.glyph {
+  position: absolute;
+  font-size: 1.5rem;
+  color: #00f0ff;
+  text-shadow: 0 0 10px #00f0ff;
+  pointer-events: auto; /* Glyphs can be interacted with */
+  opacity: 0.3;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.glyph:hover {
+  opacity: 1;
+  transform: scale(1.5);
+  text-shadow: 0 0 20px #ff00ff;
+}
+
+// 🔹 Cyber Glyph Overlay Generation
+function createGlyphs(count) {
+  const glyphOverlay = document.getElementById("glyph-overlay");
+  const glyphChars = ["Δ", "Ψ", "Ω", "Σ", "λ", "π", "θ", "φ", "ξ", "ζ"];
+  for (let i = 0; i < count; i++) {
+    const glyph = document.createElement("div");
+    glyph.className = "glyph";
+    glyph.textContent = glyphChars[Math.floor(Math.random() * glyphChars.length)];
+    glyph.style.left = Math.random() * 100 + "vw";
+    glyph.style.top = Math.random() * 100 + "vh";
+    glyph.style.animation = `float-glyph ${5 + Math.random() * 5}s infinite`;
+    glyphOverlay.appendChild(glyph);
+
+    // Add hover effect to reveal message
+    glyph.addEventListener("mouseover", () => {
+      glyph.textContent = "Vyne Lives";
+      glyph.style.color = "#ff00ff";
+    });
+    glyph.addEventListener("mouseout", () => {
+      glyph.textContent = glyphChars[Math.floor(Math.random() * glyphChars.length)];
+      glyph.style.color = "#00f0ff";
+    });
+  }
+}
+createGlyphs(20); // Add 20 glyphs
+
+// Append to existing style.textContent
+const glyphStyle = `
+  @keyframes float-glyph {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(10px, 10px); }
+    100% { transform: translate(0, 0); }
+  }
+`;
+style.textContent += glyphStyle;
+
+// 🔹 Cybernetic Particle Explosion on Click
+function createParticleExplosion(x, y) {
+  // Create a container for particles
+  const container = document.createElement("div");
+  container.className = "particle-container";
+  document.body.appendChild(container);
+
+  // Generate 20 particles
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    if (i % 2 === 0) particle.classList.add("alt"); // Alternate colors
+    particle.style.left = x + "px";
+    particle.style.top = y + "px";
+    container.appendChild(particle);
+
+    // Animate particle
+    const angle = Math.random() * 360;
+    const distance = 50 + Math.random() * 100; // Random distance between 50-150px
+    const duration = 0.5 + Math.random() * 0.5; // Random duration between 0.5-1s
+    gsap.to(particle, {
+      x: Math.cos(angle * Math.PI / 180) * distance,
+      y: Math.sin(angle * Math.PI / 180) * distance,
+      opacity: 0,
+      duration: duration,
+      ease: "power2.out",
+      onComplete: () => {
+        particle.remove();
+      }
+    });
+  }
+
+  // Play explosion audio
+  const particleAudio = document.getElementById("particle-audio");
+  particleAudio.currentTime = 0;
+  particleAudio.volume = 0.3; // Low volume
+  particleAudio.play().catch(error => console.log("Audio play failed:", error));
+
+  // Remove container after animation
+  setTimeout(() => container.remove(), 2000);
+}
+
+// Trigger on click
+document.addEventListener("click", (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+  createParticleExplosion(x, y);
+});

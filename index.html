@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VYNE | The Cybernetic Legacy of Offline AI</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script defer src="scripts.js"></script>
+</head>
+<body>
+  <!-- Neural Network Overlay -->
+  <div id="neural-network" class="neural-network"></div>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="container">
+    <ul class="nav-links">
+      <li><a href="#home">HOME</a></li>
+      <li><a href="#features">FEATURES</a></li>
+      <li><a href="#testimonials">TESTIMONIALS</a></li>
+      <li><a href="about.html">ABOUT</a></li> <!-- This should link to the new page -->
+      <li><a href="#get-vyne">GET VYNE</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+  <section id="home" class="hero">
+    <h1 class="neon-pulse"><span>VYNE</span></h1>
+    <p>The Cybernetic Legacy of Offline AI</p>
+  </section>
+  
+<!-- Core Cybernetic Modules -->
+  <section id="features" class="features">
+    <h2 class="section-title">Core Cybernetic Modules</h2>
+    <div class="module-grid">
+      <div class="module">
+        <h3 class="module-title">Artificial Intelligence</h3>
+        <p class="module-desc">Offline AI delivering raw, unfiltered insights across Mac, Windows, and Linux.</p>
+      </div>
+      <div class="module">
+        <h3 class="module-title">Machine Learning</h3>
+        <p class="module-desc">Adapts locally, reacts fast—learn with your commands in real-time.</p>
+      </div>
+      <div class="module">
+        <h3 class="module-title">Deep Learning</h3>
+        <p class="module-desc">Unleashes complex pattern recognition offline, powering your creations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="testimonials">
+    <h2 class="section-title">Voices from the Grid</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        <p class="testimonial-text">"Vyne rewrote my reality—pure cybernetic magic."</p>
+        <p class="testimonial-author">— Anon Hacker</p>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">"Offline AI that feels alive. Nothing else compares."</p>
+        <p class="testimonial-author">— Data Nomad</p>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">"A portal to freedom in a controlled web."</p>
+        <p class="testimonial-author">— Cyber Rebel</p>
+      </div>
+    </div>
+  </section>
+
+<section id="videos">
+    <h2 class="glow-text">Vyne in Action</h2>
+    <p class="video-description">A visual representation of what Vyne is doing.</p>
+    <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ox5r76UNI3g" 
+            title="Vyne Visual Representation" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen></iframe>
+    </div>
+
+    <h2 class="glow-text">Vyne Technical Deep Dive</h2>
+    <p class="video-description">A deep technical dive into what Vyne can do.</p>
+    <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/3P_qU4ZhE7k" 
+            title="Vyne Technical Deep Dive" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen></iframe>
+    </div>
+</section>
+
+
+  <!-- Call-to-Action Section -->
+  <section id="get-vyne" class="cta">
+    <h2 class="section-title">Join the Cybernetic Legacy</h2>
+    <div class="pricing-tiers">
+      <div class="tier">
+        <h3 class="tier-title">Standard Tier</h3>
+        <p class="tier-price">$99 <span class="limited">First 500 Users Only</span></p>
+        <p class="tier-desc">Core Cybernetic Modules for Mac, Windows, and Linux.</p>
+        <p class="bonus">+ Free Cyber Grid Theme (Limited Time)</p>
+        <button class="cta-btn buy-btn" data-tier="standard">Buy Standard</button>
+      </div>  
+      <div class="tier">
+        <h3 class="tier-title">Pro Tier</h3>
+        <p class="tier-price">$249 <span class="limited">First 500 Users Only</span></p>
+        <p class="tier-desc">Advanced Modules, Priority Support, Early Updates.</p>
+        <p class="bonus">+ Free Cyber Grid Theme + Priority Access (Limited Time)</p>
+        <button class="cta-btn buy-btn" data-tier="pro">Buy Pro</button>
+      </div>
+    </div>
+    <p class="future-note">Future cloud features and updates available via subscription (optional).</p>
+    <div class="cta-buttons">
+      <a href="mailto:vynecipher@gmail.com" class="cta-btn">Contact Us</a>
+    </div>
+    <div class="users-counter">
+      <span class="counter-text">Users Viewing: </span><span id="user-count">153</span>
+    </div>
+
+    <!-- Request Access Modal -->
+    <div id="request-modal" class="modal">
+      <div class="modal-content">  
+        <span id="close-modal" class="close">×</span>
+        <h2 class="modal-title">Request Access to VYNE</h2>
+        <p class="modal-desc">Enter your email to join the first 500 users. We’ll follow up with payment and access details.</p>
+        <form id="request-form" action="https://formspree.io/f/xyzegwna" method="POST">
+          <input type="hidden" name="tier" id="tier-input">
+          <input type="hidden" name="_subject" value="VYNE Access Request">
+          <div class="form-group"> 
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="_replyto" required placeholder="your.email@example.com">
+          </div>
+          <button type="submit" class="cta-btn">Submit Request</button>
+        </form>
+        <div id="success-message" class="success-message" style="display: none;">
+          <p>Request Received! We’ll email you soon.</p>
+        </div>
+        <div id="error-message" class="error-message" style="display: none;">
+          <p>Submission failed. Please try again or contact support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">Crafted in the Shadows of the Grid – VYNE 2025</p>
+    </div>
+  </footer>
+
+</body>
+</html>

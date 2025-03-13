@@ -1,0 +1,425 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // 🔹 Register GSAP Plugins
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 🔹 Boot Sequence
+  const bootScreen = document.getElementById("boot-screen");
+  const bootText = document.getElementById("boot-text");
+  const progress = document.getElementById("progress");
+  let message = "Initializing Vyne Cybernetic Core...";
+  let i = 0;
+  let width = 0;
+
+  const addGlyphs = () => {
+    const audio = new Audio("beep.mp3"); // Host locally
+    audio.volume = 0.2;
+    for (let i = 0; i < 25; i++) {
+      let glyph = document.createElement("div");
+      glyph.classList.add("glyph");
+      glyph.style.left = `${Math.random() * 80 + 10}%`;
+      glyph.style.top = `${Math.random() * 80 + 10}%`;
+      bootScreen.appendChild(glyph);
+      gsap.fromTo(
+        glyph,
+        { opacity: 0, scale: 0, rotation: Math.random() * 360 },
+        {
+          opacity: 0.9,
+          scale: 1.2,
+          rotation: "+=360",
+          duration: 1.5,
+          delay: Math.random() * 1,
+          repeat: -1,
+          yoyo: true,
+          ease: "power2.inOut",
+          onStart: () => audio.play(),
+        }
+      );
+    }
+  };
+
+  function typeEffect() {
+    if (i < message.length) {
+      bootText.innerHTML += message.charAt(i);
+      i++;
+      width += 100 / message.length;
+      progress.style.width = `${Math.random() * 5 + width}%`;
+      if (Math.random() > 0.85) {
+        gsap.to(bootText, { x: Math.random() * 4 - 2, duration: 0.1, yoyo: true, repeat: 1 });
+      }
+      setTimeout(typeEffect, 40);
+    } else {
+      gsap.to(progress, { width: "100%", duration: 0.5, ease: "power2.out" });
+      gsap.to(bootScreen, {
+        opacity: 0,
+        duration: 1.5,
+        delay: 0.5,
+        onComplete: () => {
+          bootScreen.style.display = "none";
+          gsap.from(["#hero", "#features", "#testimonials", "#cta"], {
+            opacity: 0,
+            y: 50,
+            stagger: 0.6,
+            duration: 1.5,
+            ease: "power3.out",
+          });
+        },
+      });
+    }
+  }
+
+  addGlyphs();
+  setTimeout(() => { bootText.innerHTML = ""; typeEffect(); }, 500);
+
+  // 🔹 Particles.js for Background Effects
+  particlesJS("grid-overlay", {
+    particles: {
+      number: { value: 100, density: { enable: true, value_area: 800 } },
+      color: { value: "#3bfaff" },
+      shape: { type: "polygon", polygon: { nb_sides: 6 } },
+      opacity: { value: 0.5 },
+      size: { value: 4 },
+      move: { speed: 2, direction: "none" }
+    },
+    interactivity: {
+      events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } }
+    }
+  });
+
+  particlesJS("energy-wave", {
+    particles: {
+      number: { value: 50, density: { enable: true, value_area: 800 } },
+      color: { value: "#a100f2" },
+      shape: { type: "triangle" },
+      opacity: { value: 0.7 },
+      size: { value: 8 },
+      move: { speed: 3, direction: "top" }
+    }
+  });
+
+  // 🔹 Hero Animations
+  gsap.from("#hero h1", {
+    opacity: 0,
+    y: -50,
+    duration: 1.5,
+    ease: "power3.out",
+    onStart: () => glitchEffect("#hero h1")
+  });
+
+  gsap.from("#hero p", {
+    opacity: 0,
+    y: 20,
+    duration: 1,
+    delay: 1.5,
+    ease: "power3.out"
+  });
+
+  gsap.from("#avatar", {
+    opacity: 0,
+    scale: 0.5,
+    duration: 2,
+    delay: 2,
+    ease: "elastic.out(1, 0.5)"
+  });
+
+  gsap.from("#explore-button", {
+    opacity: 0,
+    y: 30,
+    duration: 1,
+    delay: 2.5,
+    ease: "power3.out"
+  });
+
+  // 🔹 Feature Cards Animation (Staggered Fade-in with Glitch)
+  gsap.utils.toArray(".feature").forEach((feature, index) => {
+    gsap.from(feature, {
+      opacity: 0,
+      y: 50,
+      scale: 0.9,
+      duration: 1.5,
+      delay: index * 0.4,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: feature,
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    feature.addEventListener("mouseenter", () => {
+      gsap.to(feature, { scale: 1.05, boxShadow: "0 0 30px var(--neon-blue)", duration: 0.3 });
+      glitchEffect(feature.querySelector(".feature__content"));
+    });
+
+    feature.addEventListener("mouseleave", () => {
+      gsap.to(feature, { scale: 1, boxShadow: "0 0 10px var(--neon-blue)", duration: 0.3 });
+    });
+  });
+
+  // 🔹 Testimonials Animation
+  gsap.utils.toArray(".testimonial").forEach((testimonial, index) => {
+    gsap.from(testimonial, {
+      opacity: 0,
+      x: -50,
+      scale: 0.9,
+      duration: 1.5,
+      delay: index * 0.4,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: testimonial,
+        start: "top 85%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    testimonial.addEventListener("mouseenter", () => {
+      glitchEffect(testimonial.querySelector("blockquote"));
+    });
+  });
+
+  // 🔹 CTA Animation
+  gsap.from("#cta", {
+    opacity: 0,
+    y: 50,
+    duration: 1.5,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#cta",
+      start: "top 80%",
+      toggleActions: "play none none none"
+    }
+  });
+
+  gsap.utils.toArray(".cta-btn").forEach((btn) => {
+    gsap.fromTo(btn,
+      { scale: 0.9, opacity: 0.8 },
+      { scale: 1, opacity: 1, duration: 1, repeat: -1, yoyo: true, ease: "power4.out" }
+    );
+  });
+
+  gsap.utils.toArray(".platform-icon").forEach((icon, index) => {
+    gsap.to(icon, {
+      scale: 1.1,
+      opacity: 0.9,
+      duration: 1.5,
+      repeat: -1,
+      yoyo: true,
+      delay: index * 0.3,
+      ease: "sine.inOut"
+    });
+  });
+
+  // 🔹 Mouse Interaction for Parallax
+  document.addEventListener("mousemove", (event) => {
+    let x = (event.clientX / window.innerWidth) - 0.5;
+    let y = (event.clientY / window.innerHeight) - 0.5;
+    gsap.to("#grid-overlay", { x: x * 50, y: y * 50, duration: 1, ease: "power3.out" });
+    gsap.to("#energy-wave", { x: x * 30, y: y * 30, duration: 1.2, ease: "power3.out" });
+    gsap.to(".feature, .testimonial", { x: x * 10, y: y * 10, duration: 0.8, ease: "power2.out" });
+  });
+
+  // 🔹 Contact Modal
+  document.getElementById("contact-btn").addEventListener("click", () => {
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2 class="text-3xl text-neon-blue glow">Contact Vyne Cybernet</h2>
+        <p class="font-mono">Email: vyne@vincent.com</p>
+        <p class="font-mono">Join our encrypted Discord!</p>
+        <button class="cta-btn mt-4">Close</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    gsap.from(modal, { opacity: 0, scale: 0.8, duration: 0.5, ease: "power3.out" });
+    modal.querySelector(".cta-btn").addEventListener("click", () => {
+      gsap.to(modal, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => modal.remove() });
+    });
+  });
+
+  // 🔹 Utility Function for Glitch Effect
+  function glitchEffect(element) {
+    gsap.to(element, {
+      keyframes: [
+        { x: -3, duration: 0.05 },
+        { x: 3, duration: 0.05 },
+        { x: -3, duration: 0.05 },
+        { x: 0, duration: 0.05 },
+      ],
+      repeat: 1,
+    });
+  }
+});
+
+// 🔹 Interactive Terminal Demo
+const terminalBtn = document.createElement("button");
+terminalBtn.id = "terminal-btn";
+terminalBtn.className = "cta-btn bg-neon-blue text-white px-6 py-3 rounded-full mt-10 mb-6 hover:bg-opacity-80 transition transform hover:scale-105";
+terminalBtn.textContent = "Run Offline AI Demo";
+document.getElementById("cta").appendChild(terminalBtn);
+
+const terminal = document.createElement("div");
+terminal.id = "terminal";
+terminal.className = "bg-gray-900 text-neon-green p-4 rounded-lg font-mono text-sm opacity-0 max-w-2xl mx-auto mb-10";
+terminal.innerHTML = "<p>Enter text to predict next word (offline): <span id='input'>Type here...</span></p><p id='output'></p>";
+document.body.appendChild(terminal);
+
+gsap.from("#terminal-btn", {
+  opacity: 0,
+  y: 20,
+  duration: 1,
+  delay: 0.5,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: "#cta",
+    start: "top 80%",
+    toggleActions: "play none none none"
+  }
+});
+
+document.getElementById("terminal-btn").addEventListener("click", () => {
+  gsap.to("#terminal", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+  const input = document.getElementById("input");
+  const output = document.getElementById("output");
+  input.innerHTML = "<input type='text' id='terminal-input' class='bg-transparent border-b border-neon-blue text-white w-full' placeholder='Type here...'>";
+  document.getElementById("terminal-input").addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      const text = e.target.value.toLowerCase();
+      let prediction = "";
+      if (text.includes("hello")) prediction = "world";
+      else if (text.includes("vyn")) prediction = "e rules!";
+      else prediction = "processing offline...";
+      output.innerHTML = `<span class="text-neon-purple">Prediction: ${prediction}</span>`;
+      e.target.value = "";
+    }
+  });
+});
+
+// 🔹 Live Visitor Counter
+const visitorCounter = document.createElement("div");
+visitorCounter.id = "visitor-counter";
+visitorCounter.className = "text-neon-blue text-center mt-6 font-bold glow";
+visitorCounter.innerHTML = "Visitors Exploring Vyne: <span id='visitor-count'>0</span>";
+document.getElementById("cta").appendChild(visitorCounter);
+
+gsap.from("#visitor-counter", {
+  opacity: 0,
+  y: 20,
+  duration: 1,
+  delay: 0.5,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: "#cta",
+    start: "top 80%",
+    toggleActions: "play none none none"
+  }
+});
+
+let visitorCount = 0;
+setInterval(() => {
+  visitorCount += Math.floor(Math.random() * 5) + 1;
+  document.getElementById("visitor-count").textContent = visitorCount;
+}, 5000); // Updates every 5 seconds
+
+// 🔹 Easter Egg Animation
+let easterEggActive = false;
+document.getElementById("hero h1").addEventListener("click", () => {
+  if (!easterEggActive) {
+    easterEggActive = true;
+    const glyph = document.createElement("div");
+    glyph.className = "glyph absolute text-neon-purple text-4xl";
+    glyph.style.left = "50%";
+    glyph.style.top = "50%";
+    glyph.textContent = "🔮";
+    document.body.appendChild(glyph);
+    gsap.fromTo(glyph, 
+      { opacity: 0, scale: 0, rotation: 0 },
+      { opacity: 1, scale: 2, rotation: 360, duration: 2, ease: "power2.out", onComplete: () => {
+        gsap.to(glyph, { opacity: 0, duration: 1, onComplete: () => glyph.remove() });
+        easterEggActive = false;
+      }}
+    );
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "v" || e.key === "V") {
+    let combo = "";
+    document.addEventListener("keydown", (e2) => {
+      combo += e2.key;
+      if (combo.includes("vy")) {
+        document.getElementById("hero h1").click();
+        combo = "";
+      }
+    }, { once: true });
+  }
+});
+
+// 🔹 Holographic 3D Avatar Animation
+gsap.from("#holo-avatar", {
+  opacity: 0,
+  scale: 0.5,
+  duration: 2,
+  delay: 1,
+  ease: "elastic.out(1, 0.5)",
+  scrollTrigger: {
+    trigger: "#hero",
+    start: "top 50%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+document.addEventListener("mousemove", (e) => {
+  let x = (e.clientX / window.innerWidth - 0.5) * 20;
+  let y = (e.clientY / window.innerHeight - 0.5) * 20;
+  gsap.to("#holo-avatar", {
+    rotationX: y,
+    rotationY: -x,
+    duration: 1,
+    ease: "power2.out"
+  });
+});
+
+
+// 🔹 Ambient Soundscape and Focus Lock
+const ambientSound = document.getElementById("ambient-sound");
+const focusLock = document.createElement("div");
+focusLock.id = "focus-lock";
+document.body.appendChild(focusLock);
+document.body.classList.add("focus-active");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollProgress = scrollY / maxScroll;
+  ambientSound.volume = Math.min(scrollProgress * 0.5, 0.5); // Fades in up to 50% volume
+  if (scrollProgress > 0.1 && !ambientSound.played) {
+    ambientSound.play().catch(() => console.log("Autoplay blocked, user interaction needed"));
+  }
+});
+
+// Ensure sound plays with user interaction
+document.addEventListener("click", () => {
+  if (!ambientSound.played) ambientSound.play().catch(() => console.log("Autoplay blocked"));
+}, { once: true });
+
+// 🔹 Ambient Soundscape and Focus Lock
+const ambientSound = document.getElementById("ambient-sound");
+const focusLock = document.createElement("div");
+focusLock.id = "focus-lock";
+document.body.appendChild(focusLock);
+document.body.classList.add("focus-active");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollProgress = scrollY / maxScroll;
+  ambientSound.volume = Math.min(scrollProgress * 0.5, 0.5); // Fades in up to 50% volume
+  if (scrollProgress > 0.1 && !ambientSound.played) {
+    ambientSound.play().catch(() => console.log("Autoplay blocked, user interaction needed"));
+  }
+});
+
+// Ensure sound plays with user interaction
+document.addEventListener("click", () => {
+  if (!ambientSound.played) ambientSound.play().catch(() => console.log("Autoplay blocked"));
+}, { once: true });
