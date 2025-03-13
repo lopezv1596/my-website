@@ -553,3 +553,5 @@ function createParticleSystem() {
   animate();
   console.log('Particle system started with', particleCount, 'particles');
 }
+
+k
