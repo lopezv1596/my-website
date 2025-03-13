@@ -464,3 +464,92 @@ window.onload = function() {
   // Start the particle system
   createParticleSystem();
 };
+
+// 🔹 Cybernetic Particle System
+function createParticleSystem() {
+  const canvas = document.getElementById('particle-canvas');
+  if (!canvas) {
+    console.error('Canvas element not found!');
+    return;
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('Canvas context not available!');
+    return;
+  }
+  console.log('Canvas and context initialized successfully');
+
+  // Set canvas size
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  // Particle class
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 3 + 1; // Smaller particles for subtlety
+      this.speedX = Math.random() * 1 - 0.5; // Slower movement
+      this.speedY = Math.random() * 1 - 0.5;
+      this.life = Math.random() * 200 + 100; // Particle lifespan
+      this.opacity = 0.8;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.life -= 1;
+      if (this.life <= 0) {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.life = Math.random() * 200 + 100;
+      }
+      // Mouse interaction
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 100) {
+        this.opacity = 0.3; // Dim when near mouse
+      } else {
+        this.opacity = 0.8;
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 255, 204, ${this.opacity})`; // Neon cyan with variable opacity
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = 'rgba(0, 255, 204, 0.5)';
+      ctx.fill();
+    }
+  }
+
+  const particles = [];
+  const particleCount = 150;
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  const mouse = { x: 0, y: 0 };
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+      particle.update();
+      particle.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+  console.log('Particle system started with', particleCount, 'particles');
+}
