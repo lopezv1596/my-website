@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VYNE AI Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(45deg, #0d1b2a, #1b263b);
+            color: #00eaff;
+            font-family: 'Orbitron', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            text-shadow: 0 0 15px #00eaff, 0 0 30px #00eaff;
+            animation: neonFlicker 3s infinite;
+        }
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+        #chat-container {
+            width: 60%;
+            height: 50vh;
+            background: rgba(0, 10, 20, 0.8);
+            border: 2px solid #00eaff;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+            position: relative;
+        }
+        .message {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            animation: messageFadeIn 0.3s ease-in;
+        }
+        @keyframes messageFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user { color: #39ff14; text-align: right; }
+        .bot { color: #00eaff; text-align: left; }
+        #input-container {
+            width: 60%;
+            margin: 20px auto;
+            display: flex;
+            gap: 10px;
+        }
+        #input-box {
+            flex: 1;
+            padding: 10px;
+            font-size: 1.2em;
+            background: black;
+            color: #00eaff;
+            border: 2px solid #00eaff;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            font-size: 1.2em;
+            background: #00eaff;
+            color: #0d1b2a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #39ff14;
+            box-shadow: 0 0 10px #39ff14;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>VYNE AI Interface</h1>
+    <div id="chat-container"></div>
+    <div id="input-container">
+        <input type="text" id="input-box" placeholder="Ask Vyne something...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+
+function sendMessage() {
+    let inputBox = document.getElementById('input-box');
+    let message = inputBox.value.trim();
+    if (!message) return;
+
+    let chatContainer = document.getElementById('chat-container');
+
+    // User message
+    let userMessage = document.createElement('div');
+    userMessage.className = 'message user';
+    userMessage.innerText = "You: " + message;
+    chatContainer.appendChild(userMessage);
+
+    // AI response placeholder
+    let botMessage = document.createElement('div');
+    botMessage.className = 'message bot';
+    botMessage.innerText = "VYNE: Thinking...";
+    chatContainer.appendChild(botMessage);
+
+fetch("http://66.198.240.38:5000/api/chat", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: userInput })
+})
+.then(response => response.json())
+.then(data => {
+    displayMessage("VYNE: " + data.response, "bot");
+})
+.catch(error => {
+    displayMessage("VYNE: Error connecting to the AI server.", "bot");
+    console.error("Error:", error);
+});
+
+    inputBox.value = '';
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+
+        function generateAIResponse(userInput) {
+            const responses = [
+                "Analyzing data stream...",
+                "Decrypting patterns...",
+                "Processing your request...",
+                "Accessing neural database...",
+                "Executing thought protocol..."
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+    </script>
+</body>
+</html>
+
